@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <color name="bus_red">#b11017</color>
+        <color name="bus_green">#66ae39</color>
+        <color name="bus_blue">#0198bd</color>
+        <color name="bus_yellow">#ffc20e</color>
+        <color name="white">#fff</color>
+        <color name="black">#000</color>
+    </resources>
