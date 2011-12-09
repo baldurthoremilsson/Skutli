@@ -27,7 +27,7 @@ public class BusStop implements Serializable {
 	public int getNextArrival(Calendar date) {
 		int weekday = date.get(Calendar.DAY_OF_WEEK);
 		
-		int currTime = date.get(Calendar.HOUR)*60 + date.get(Calendar.MINUTE);
+		int currTime = date.get(Calendar.HOUR_OF_DAY)*60 + date.get(Calendar.MINUTE);
 		int arrivalTime = -1;
 		Schedule schedule;
 		
