@@ -100,7 +100,7 @@ public class NextArrivalActivity extends Activity {
 
 		Calendar newTime = (Calendar) currentTime.clone();
 		newTime.add(Calendar.MINUTE, delta);
-		int hour = newTime.get(Calendar.HOUR);
+		int hour = newTime.get(Calendar.HOUR_OF_DAY);
 		int minute = newTime.get(Calendar.MINUTE);
 		String value;
 		
