@@ -8,8 +8,8 @@ import java.util.Map;
 public class BusStop implements Serializable {
 	private static final long serialVersionUID = -1979170903096663321L;
 	
-	String name;
-	Map<Integer, Schedule> schedules;
+	private String name;
+	private Map<Integer, Schedule> schedules;
 	
 	public BusStop(String name) {
 		this.name = name;

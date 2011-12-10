@@ -7,7 +7,7 @@ import java.util.List;
 public class Direction implements Serializable {
 	private static final long serialVersionUID = 6388947285227916217L;
 
-	List<BusStop> busStops;
+	private List<BusStop> busStops;
 	
 	public Direction() {
 		busStops = new ArrayList<BusStop>();

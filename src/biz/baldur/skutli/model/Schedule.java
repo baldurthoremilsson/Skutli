@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Schedule implements Serializable {
 	private static final long serialVersionUID = -2830024555325395514L;
 	
-	ArrayList<Integer> arrivals;
+	private ArrayList<Integer> arrivals;
 	
 	public Schedule() {
 		this.arrivals = new ArrayList<Integer>();

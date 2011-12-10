@@ -30,9 +30,9 @@ import biz.baldur.skutli.model.Schedule;
 public class DataStore implements Serializable {
 	private static final long serialVersionUID = 2450934055814595508L;
 	
-	Map<String, Route> routeMap;
-	List<Route> routeList;
-	boolean populated;
+	private Map<String, Route> routeMap;
+	private List<Route> routeList;
+	private boolean populated;
 	
 	public DataStore() {
 		this.routeMap = new HashMap<String, Route>();

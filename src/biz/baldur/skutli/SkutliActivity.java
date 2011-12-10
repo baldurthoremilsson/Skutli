@@ -26,11 +26,11 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class SkutliActivity extends ListActivity {
-	DataStore dataStore;
-	ProgressDialog dialog;
-	Handler progressHandler;
-	String baseUrl = "http://baldur.biz/bus/";
-	ArrayAdapter<Route> arrayAdapter;
+	private DataStore dataStore;
+	private ProgressDialog dialog;
+	private Handler progressHandler;
+	private String baseUrl = "http://baldur.biz/bus/";
+	private ArrayAdapter<Route> arrayAdapter;
 
 	public static final int PROGRESS_MAX = 1;
 	public static final int PROGRESS_UPDATE = 2;
