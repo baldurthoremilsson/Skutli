@@ -1,13 +1,13 @@
-package biz.baldur.busme;
+package biz.baldur.skutli;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import biz.baldur.busme.R;
-import biz.baldur.busme.model.BusStop;
-import biz.baldur.busme.model.Direction;
-import biz.baldur.busme.model.Route;
+import biz.baldur.skutli.R;
+import biz.baldur.skutli.model.BusStop;
+import biz.baldur.skutli.model.Direction;
+import biz.baldur.skutli.model.Route;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;

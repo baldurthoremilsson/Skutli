@@ -1,4 +1,4 @@
-package biz.baldur.busme.model;
+package biz.baldur.skutli.model;
 
 import java.io.Serializable;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package biz.baldur.busme;
+package biz.baldur.skutli;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,8 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-import biz.baldur.busme.R;
-import biz.baldur.busme.model.Route;
+import biz.baldur.skutli.R;
+import biz.baldur.skutli.model.Route;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -25,8 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class BusMeActivity extends ListActivity {
-	int CHOOSE_ROUTE = 1;
+public class SkutliActivity extends ListActivity {
 	DataStore dataStore;
 	ProgressDialog dialog;
 	Handler progressHandler;
@@ -65,7 +64,7 @@ public class BusMeActivity extends ListActivity {
 		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(BusMeActivity.this, NextArrivalActivity.class);
+				Intent intent = new Intent(SkutliActivity.this, NextArrivalActivity.class);
 				intent.putExtra("route", ((TextView)view).getText());
 				startActivity(intent);
 			}

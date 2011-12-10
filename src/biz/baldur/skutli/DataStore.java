@@ -1,4 +1,4 @@
-package biz.baldur.busme;
+package biz.baldur.skutli;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,11 +21,11 @@ import org.json.JSONObject;
 
 import android.content.res.Resources;
 import android.os.Handler;
-import biz.baldur.busme.R;
-import biz.baldur.busme.model.BusStop;
-import biz.baldur.busme.model.Direction;
-import biz.baldur.busme.model.Route;
-import biz.baldur.busme.model.Schedule;
+import biz.baldur.skutli.R;
+import biz.baldur.skutli.model.BusStop;
+import biz.baldur.skutli.model.Direction;
+import biz.baldur.skutli.model.Route;
+import biz.baldur.skutli.model.Schedule;
 
 public class DataStore implements Serializable {
 	private static final long serialVersionUID = 2450934055814595508L;
@@ -77,7 +77,7 @@ public class DataStore implements Serializable {
 			String routeName;
 			Route route;
 			
-			callback.sendMessage(callback.obtainMessage(BusMeActivity.PROGRESS_MAX, routesObjects.length(), 0));
+			callback.sendMessage(callback.obtainMessage(SkutliActivity.PROGRESS_MAX, routesObjects.length(), 0));
 			for(int i = 0; i < routesObjects.length(); i++) {
 				routeObject = routesObjects.getJSONObject(i);
 				routeId = routeObject.getString("id");
@@ -85,7 +85,7 @@ public class DataStore implements Serializable {
 				route = getRouteInfo(baseUri, routeId, resources);
 				routeMap.put(routeName, route);
 				routeList.add(route);
-				callback.sendMessage(callback.obtainMessage(BusMeActivity.PROGRESS_UPDATE, routeName));
+				callback.sendMessage(callback.obtainMessage(SkutliActivity.PROGRESS_UPDATE, routeName));
 			}
 		} catch (JSONException e) {
 		}
