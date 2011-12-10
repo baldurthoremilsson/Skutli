@@ -28,6 +28,7 @@ public class BusStop implements Serializable {
 		int weekday = date.get(Calendar.DAY_OF_WEEK);
 		
 		int currTime = date.get(Calendar.HOUR_OF_DAY)*60 + date.get(Calendar.MINUTE);
+		int referenceTime = currTime;
 		int arrivalTime = -1;
 		Schedule schedule;
 		
@@ -35,8 +36,10 @@ public class BusStop implements Serializable {
 		
 		for(;arrivalTime == -1; addDays++) {
 			schedule = schedules.get(weekday);
-			arrivalTime = schedule.nextArrival(currTime);
 			weekday = nextWeekday(weekday);
+			if(schedule != null)
+				arrivalTime = schedule.nextArrival(referenceTime);
+			referenceTime = 0;
 		}
 		
 		return addDays * 24 * 60 + arrivalTime - currTime;
