@@ -18,7 +18,7 @@ public class Schedule implements Serializable {
 	
 	public int nextArrival(int currTime) {
 		for(Integer arrival: arrivals) {
-			if(currTime < arrival)
+			if(currTime <= arrival)
 				return arrival;
 		}
 		return -1;
