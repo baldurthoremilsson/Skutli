@@ -1,6 +1,7 @@
 package biz.baldur.skutli;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -74,6 +75,10 @@ public class NextArrivalActivity extends Activity {
 			@Override
 			public void handleMessage(Message msg) {
 				Calendar currentTime = Calendar.getInstance();
+				Calendar nextTime = Calendar.getInstance();
+				int nextTimeOffset;
+				int firstTime;
+				int secondTime;
 				Set<Integer> keys = listCache.keySet();
 				Pair<BusStop, View> pair;
 				BusStop stop;
@@ -85,9 +90,22 @@ public class NextArrivalActivity extends Activity {
 					stop = pair.first;
 					if(stop.getName().equals(""))
 						continue;
+					
 					l = (LinearLayout) pair.second;
-					tv = (TextView) l.findViewById(R.id.time);
-					tv.setText(formatTime(stop.getNextArrival(currentTime), currentTime));
+					
+					firstTime = stop.getNextArrival(currentTime);
+					nextTimeOffset = firstTime + 1;
+					
+					nextTime.add(Calendar.MINUTE, nextTimeOffset);
+					secondTime = stop.getNextArrival(nextTime) + nextTimeOffset;
+					nextTime.add(Calendar.MINUTE, -nextTimeOffset);
+					
+					tv = (TextView) l.findViewById(R.id.firstTime);
+					tv.setText(formatTime(firstTime, currentTime));
+					tv.invalidate();
+					
+					tv = (TextView) l.findViewById(R.id.secondTime);
+					tv.setText(formatTime(secondTime, currentTime));
 					tv.invalidate();
 				}
 			}

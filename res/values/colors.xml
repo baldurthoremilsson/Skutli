@@ -6,4 +6,5 @@
         <color name="bus_yellow">#ffc20e</color>
         <color name="white">#fff</color>
         <color name="black">#000</color>
+        <color name="gray">#999</color>
     </resources>

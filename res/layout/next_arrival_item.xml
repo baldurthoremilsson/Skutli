@@ -13,13 +13,28 @@
 	    android:singleLine="false"
 	    android:textColor="@color/black"
 	    android:id="@+id/stopName"/>
-	<TextView
-		android:layout_width="wrap_content"
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:gravity="center_horizontal"
-		android:textSize="16dp"
-		android:paddingLeft="4dp"
-		android:singleLine="true"
-		android:textColor="@color/black"
-		android:id="@+id/time"/>
+		android:gravity="center_horizontal">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:textSize="16dp"
+			android:paddingRight="4dp"
+			android:singleLine="true"
+			android:textColor="@color/black"
+			android:id="@+id/firstTime"/>
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:gravity="center_horizontal"
+			android:textSize="16dp"
+			android:paddingLeft="4dp"
+			android:singleLine="true"
+			android:textColor="@color/gray"
+			android:id="@+id/secondTime"/>
+		</LinearLayout>
 </LinearLayout>
