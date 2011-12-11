@@ -3,6 +3,7 @@ package biz.baldur.skutli;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import biz.baldur.skutli.R;
 import biz.baldur.skutli.model.BusStop;
@@ -11,7 +12,10 @@ import biz.baldur.skutli.model.Route;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +28,8 @@ public class NextArrivalActivity extends Activity {
 	
 	private static final Map<Integer, String> weekdays = new HashMap<Integer, String>();
 	private ArrayAdapter<BusStop> arrayAdapter;
+	private Map<Integer, Pair<BusStop, View>> listCache;
+	private int routeColor;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,57 +37,99 @@ public class NextArrivalActivity extends Activity {
 		this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.next_arrival);
 
+		listCache = new HashMap<Integer, Pair<BusStop, View>>();
+		
 		String routeID = getIntent().getExtras().getString("route");
 		Route route = dataStore.getRoute(routeID);
 		
-		final int routeColor = route.getColor();
+		routeColor = route.getColor();
 
 		TextView tvRouteName = (TextView) findViewById(R.id.routeName);
 		tvRouteName.setText(route.getName());
 		tvRouteName.setBackgroundColor(route.getColor());
 		
 		ListView lvStops = (ListView) findViewById(R.id.stopList);
-		final Calendar currentTime = Calendar.getInstance();
 		
 		arrayAdapter = new ArrayAdapter<BusStop>(this, R.layout.next_arrival_item) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
-				BusStop stop = getItem(position);
-				if(stop.getName().equals("")) {
-					View view = getLayoutInflater().inflate(R.layout.next_arrival_separator, null); 
-					view.setBackgroundColor(routeColor);
-					return view;
-				}
-				
-				LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.next_arrival_item, null);
-				TextView tv;
-
-				tv = (TextView) l.findViewById(R.id.stopName);
-				tv.setText(stop.getName());
-				
-				tv = (TextView) l.findViewById(R.id.time);
-				tv.setText(formatTime(stop.getNextArrival(currentTime), currentTime));
-				
-				return l;
+				return listCache.get(position).second;
 			}
 		};
 		
 		lvStops.setAdapter(arrayAdapter);
 		
 		int iDirection = 0;
+		int position = 0;
 		for(Direction direction: route.getDirections()) {
 			if(iDirection != 0)
-				arrayAdapter.add(new BusStop(""));
+				addStop(new BusStop(""), position++);
 			for(BusStop stop: direction.getBusStops()) {
-				arrayAdapter.add(stop);
+				addStop(stop, position++);
 			}
 			iDirection++;
 		}
+		
+		final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				Calendar currentTime = Calendar.getInstance();
+				Set<Integer> keys = listCache.keySet();
+				Pair<BusStop, View> pair;
+				BusStop stop;
+				LinearLayout l;
+				TextView tv;
+				
+				for(Integer key: keys) {
+					pair = listCache.get(key);
+					stop = pair.first;
+					if(stop.getName().equals(""))
+						continue;
+					l = (LinearLayout) pair.second;
+					tv = (TextView) l.findViewById(R.id.time);
+					tv.setText(formatTime(stop.getNextArrival(currentTime), currentTime));
+					tv.invalidate();
+				}
+			}
+		};
+		
+		Thread updateTime = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Calendar currentTime;
+				while(true) {
+					handler.sendEmptyMessage(0);
+					currentTime = Calendar.getInstance();
+					try {
+						Thread.sleep((60 - currentTime.get(Calendar.SECOND)) * 1000 + 10);
+					} catch (InterruptedException e) {
+						break;
+					}
+				}
+			}
+		});
+		updateTime.start();
+	}
+	
+	private void addStop(BusStop stop, int position) {
+		View view;
+		if(stop.getName().equals("")) {
+			view = getLayoutInflater().inflate(R.layout.next_arrival_separator, null); 
+			view.setBackgroundColor(routeColor);
+		}
+		else {
+			LinearLayout l = (LinearLayout) getLayoutInflater().inflate(R.layout.next_arrival_item, null);
+			TextView tv = (TextView) l.findViewById(R.id.stopName);
+			tv.setText(stop.getName());
+			
+			view = l;
+		}
+		listCache.put(position, new Pair<BusStop, View>(stop, view));
+		arrayAdapter.add(stop);
 	}
 	
 	private Map<Integer, String> getWeekdays() {
 		if(weekdays.size() == 0) {
-			Log.v("BUSME", "adding weekdays");
 			weekdays.put(Calendar.SUNDAY, "sun");
 			weekdays.put(Calendar.MONDAY, "mán");
 			weekdays.put(Calendar.TUESDAY, "þri");
